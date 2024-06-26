@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chain Reaction Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <h1>Chain Reaction</h1>
+        <div id="scoreboard">
+            <p>Joueur 1: <span id="player1Score">0</span> | Coups restants: <span id="player1Moves">2</span></p>
+            <p>Joueur 2: <span id="player2Score">0</span> | Coups restants: <span id="player2Moves">2</span></p>
+        </div>
+        <div id="gameBoard">
+            <table id="grid">
+            </table>
+        </div>
+        <div id="controls">
+            <button id="drawBlockButton">Tirer un bloc</button>
+            <button id="endTurnButton">Fin du tour</button>
+        </div>
+        <p id="message"></p>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
