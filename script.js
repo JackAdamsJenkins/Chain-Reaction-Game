@@ -112,6 +112,16 @@ function findBestCell(color) {
             if (completes) return [i, j];
         }
     }
+    // Cherche une case vide entre deux blocs de même couleur (X_X)
+    for (let i = 0; i < 5; i++) {
+        for (let j = 0; j < 5; j++) {
+            if (grid[i][j]) continue;
+            // Horizontal: X_X
+            if (j > 0 && j < 4 && grid[i][j-1] === color && grid[i][j+1] === color) return [i, j];
+            // Vertical: X sur _, _ sous X
+            if (i > 0 && i < 4 && grid[i-1][j] === color && grid[i+1][j] === color) return [i, j];
+        }
+    }
     // Sinon, cherche une case adjacente à 2 blocs de même couleur (prépare une chaîne)
     for (let i = 0; i < 5; i++) {
         for (let j = 0; j < 5; j++) {
