@@ -9,9 +9,14 @@
 <body>
     <div id="app">
         <h1>Chain Reaction</h1>
+        <div id="modeSelector">
+            <label><input type="radio" name="mode" value="pvp" checked> Joueur vs Joueur</label>
+            <label><input type="radio" name="mode" value="pvc"> Contre l'ordinateur</label>
+            <button id="startButton">Nouvelle partie</button>
+        </div>
         <div id="scoreboard">
             <p>Joueur 1: <span id="player1Score">0</span> | Coups restants: <span id="player1Moves">2</span></p>
-            <p>Joueur 2: <span id="player2Score">0</span> | Coups restants: <span id="player2Moves">2</span></p>
+            <p id="player2Label">Joueur 2: <span id="player2Score">0</span> | Coups restants: <span id="player2Moves">2</span></p>
         </div>
         <div id="gameBoard">
             <table id="grid">
