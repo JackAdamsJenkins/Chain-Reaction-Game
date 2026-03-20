@@ -98,22 +98,76 @@ function endTurn() {
 
 function computerTurn() {
     playComputerMove();
-    if (player2Moves > 0) {
-        setTimeout(playComputerMove, 600);
-    } else {
-        setTimeout(() => endTurn(), 600);
+}
+
+function findBestCell(color) {
+    // Cherche une case vide qui complète une chaîne de 3+ avec la couleur donnée
+    for (let i = 0; i < 5; i++) {
+        for (let j = 0; j < 5; j++) {
+            if (grid[i][j]) continue;
+            // Simuler le placement
+            grid[i][j] = color;
+            const completes = wouldCompleteChain(i, j, color);
+            grid[i][j] = '';
+            if (completes) return [i, j];
+        }
     }
+    // Sinon, cherche une case adjacente à 2 blocs de même couleur (prépare une chaîne)
+    for (let i = 0; i < 5; i++) {
+        for (let j = 0; j < 5; j++) {
+            if (grid[i][j]) continue;
+            if (countAligned(i, j, color) >= 2) return [i, j];
+        }
+    }
+    // Sinon, case adjacente à au moins 1 bloc de même couleur
+    for (let i = 0; i < 5; i++) {
+        for (let j = 0; j < 5; j++) {
+            if (grid[i][j]) continue;
+            if (countAligned(i, j, color) >= 1) return [i, j];
+        }
+    }
+    return null;
+}
+
+function wouldCompleteChain(row, col, color) {
+    // Horizontal
+    let count = 1;
+    for (let j = col - 1; j >= 0 && grid[row][j] === color; j--) count++;
+    for (let j = col + 1; j < 5 && grid[row][j] === color; j++) count++;
+    if (count >= 3) return true;
+    // Vertical
+    count = 1;
+    for (let i = row - 1; i >= 0 && grid[i][col] === color; i--) count++;
+    for (let i = row + 1; i < 5 && grid[i][col] === color; i++) count++;
+    return count >= 3;
+}
+
+function countAligned(row, col, color) {
+    let max = 0;
+    // Horizontal
+    let h = 0;
+    for (let j = col - 1; j >= 0 && grid[row][j] === color; j--) h++;
+    for (let j = col + 1; j < 5 && grid[row][j] === color; j++) h++;
+    max = Math.max(max, h);
+    // Vertical
+    let v = 0;
+    for (let i = row - 1; i >= 0 && grid[i][col] === color; i--) v++;
+    for (let i = row + 1; i < 5 && grid[i][col] === color; i++) v++;
+    max = Math.max(max, v);
+    return max;
 }
 
 function playComputerMove() {
     if (player2Moves <= 0) return;
     drawBlock();
+    const color = currentBlock;
     const emptyCells = [];
     for (let i = 0; i < 5; i++)
         for (let j = 0; j < 5; j++)
             if (!grid[i][j]) emptyCells.push([i, j]);
     if (emptyCells.length === 0) return;
-    const [r, c] = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+    const best = findBestCell(color);
+    const [r, c] = best || emptyCells[Math.floor(Math.random() * emptyCells.length)];
     setTimeout(() => {
         placeBlock(r, c);
         if (player2Moves > 0) {
